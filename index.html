@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Infrastructure Interview Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF8F3;
+    --surface: #FFFFFF;
+    --surface-2: #F1EEE6;
+    --ink: #26313A;
+    --ink-soft: #5B6670;
+    --line: #E3DDD0;
+    --teal: #2F6F6B;
+    --teal-soft: #DCEAE8;
+    --blue: #4C7EA8;
+    --blue-soft: #E3EBF3;
+    --amber: #C6862E;
+    --amber-soft: #F5E9D6;
+    --green: #4E8F63;
+    --green-soft: #E3EFE6;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'IBM Plex Sans', -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #1B211F;
+      --surface: #232B29;
+      --surface-2: #2A332F;
+      --ink: #ECE7DC;
+      --ink-soft: #A7B0AA;
+      --line: #384039;
+      --teal: #6FBFB5;
+      --teal-soft: #26413D;
+      --blue: #8FB6DA;
+      --blue-soft: #253643;
+      --amber: #E0AE63;
+      --amber-soft: #453722;
+      --green: #8FCBA1;
+      --green-soft: #26402F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1B211F;
+    --surface: #232B29;
+    --surface-2: #2A332F;
+    --ink: #ECE7DC;
+    --ink-soft: #A7B0AA;
+    --line: #384039;
+    --teal: #6FBFB5;
+    --teal-soft: #26413D;
+    --blue: #8FB6DA;
+    --blue-soft: #253643;
+    --amber: #E0AE63;
+    --amber-soft: #453722;
+    --green: #8FCBA1;
+    --green-soft: #26402F;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { min-height: 100vh; }
+  a { color: inherit; }
+  button { font-family: inherit; }
+
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* Header */
+  header.hero {
+    padding: 34px 20px 22px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(26px, 4vw, 34px);
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .hero p.sub {
+    margin: 0 0 10px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  .hero .dates {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--teal);
+    font-weight: 600;
+    background: var(--teal-soft);
+    padding: 5px 12px;
+    border-radius: 100px;
+  }
+
+  /* Nav */
+  nav.tabs {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 4px;
+    padding: 0 20px;
+    overflow-x: auto;
+  }
+  nav.tabs .tabs-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 2px;
+    width: 100%;
+  }
+  nav.tabs button {
+    background: none;
+    border: none;
+    padding: 14px 16px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  nav.tabs button.active {
+    color: var(--teal);
+    border-bottom-color: var(--teal);
+    font-weight: 600;
+  }
+  nav.tabs button:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; }
+
+  section.view { display: none; padding-top: 26px; }
+  section.view.active { display: block; }
+
+  h2.section-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  p.section-note { margin: 0 0 16px; color: var(--ink-soft); font-size: 13.5px; }
+
+  /* Stat rail */
+  .stat-rail {
+    display: flex;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .stat {
+    flex: 1;
+    padding: 18px 14px;
+    text-align: center;
+    border-right: 1px solid var(--line);
+  }
+  .stat:last-child { border-right: none; }
+  .stat .num {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--teal);
+    line-height: 1;
+  }
+  .stat .lbl {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 640px) {
+    .stat-rail { flex-wrap: wrap; }
+    .stat { flex: 1 1 50%; border-bottom: 1px solid var(--line); }
+    .stat:nth-child(2n) { border-right: none; }
+  }
+
+  /* Overall progress bar */
+  .progress-block {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+  }
+  .progress-block .row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .progress-block .row-top .pct {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--teal);
+  }
+  .bar-track {
+    height: 12px;
+    background: var(--surface-2);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--teal);
+    border-radius: 100px;
+    transition: width .4s ease;
+  }
+  .progress-block .row-bottom {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  /* Today's focus */
+  .today-card {
+    background: var(--teal-soft);
+    border: 1px solid var(--teal);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 26px;
+  }
+  .today-card .eyebrow {
+    font-size: 12.5px;
+    color: var(--teal);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .today-card h3 {
+    font-family: var(--font-display);
+    font-size: 19px;
+    margin: 0 0 4px;
+  }
+  .today-card .meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+  .today-card .bar-track { background: rgba(0,0,0,0.06); }
+  .today-card .cta {
+    margin-top: 14px;
+    display: inline-block;
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .today-card .cta:hover { opacity: .92; }
+  .empty-state {
+    background: var(--surface-2);
+    border-radius: 14px;
+    padding: 24px 20px;
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 14.5px;
+  }
+
+  /* Weekly bars */
+  .week-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .week-row .wk-label {
+    width: 68px;
+    flex: none;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .week-row .bar-track { flex: 1; height: 10px; }
+  .week-row .wk-pct {
+    width: 42px;
+    flex: none;
+    text-align: right;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  /* Day cards / roadmap */
+  .week-group { margin-bottom: 28px; }
+  .week-group h3 {
+    font-size: 14px;
+    text-transform: none;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin: 0 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+  .day-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .day-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+  }
+  .day-head:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; }
+  .day-badge {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    background: var(--surface-2);
+    color: var(--ink-soft);
+  }
+  .day-badge.status-done { background: var(--green-soft); color: var(--green); }
+  .day-badge.status-progress { background: var(--amber-soft); color: var(--amber); }
+  .day-head .day-info { flex: 1; min-width: 0; }
+  .day-head .day-info .topic {
+    font-size: 14.5px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .day-head .day-info .sub {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .day-head .pct-wrap {
+    flex: none;
+    width: 76px;
+    text-align: right;
+  }
+  .day-head .pct-wrap .p { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+  .day-head .chev { flex: none; color: var(--ink-soft); font-size: 12px; transition: transform .2s; }
+  .day-card.open .chev { transform: rotate(90deg); }
+  .day-body {
+    display: none;
+    padding: 4px 16px 16px 68px;
+    border-top: 1px solid var(--line);
+  }
+  .day-card.open .day-body { display: block; padding-top: 12px; }
+  .task-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 0;
+  }
+  .task-row input[type=checkbox] {
+    width: 19px;
+    height: 19px;
+    flex: none;
+    margin-top: 1px;
+    accent-color: var(--teal);
+    cursor: pointer;
+  }
+  .task-row label {
+    font-size: 14px;
+    cursor: pointer;
+    line-height: 1.4;
+  }
+  .task-row.done label { color: var(--ink-soft); text-decoration: line-through; }
+  .day-body .day-bar { margin-top: 10px; }
+  .day-body .day-bar .bar-track { height: 6px; }
+
+  /* Calendar heatmap */
+  .cal-month { margin-bottom: 20px; }
+  .cal-month h4 {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  .cal-cell {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--surface-2);
+    color: var(--ink-soft);
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .cal-cell.blank { background: none; cursor: default; }
+  .cal-cell.done { background: var(--green-soft); color: var(--green); border-color: var(--green); }
+  .cal-cell.progress { background: var(--amber-soft); color: var(--amber); border-color: var(--amber); }
+  .cal-cell.today { box-shadow: 0 0 0 2px var(--teal) inset; }
+
+  /* Remaining / completed / attention */
+  .list-block {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+  }
+  .list-block h3 {
+    font-size: 14px;
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+  .plain-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 13.5px;
+    border-bottom: 1px solid var(--line);
+  }
+  .plain-row:last-child { border-bottom: none; }
+  .plain-row .d { color: var(--ink-soft); font-size: 12.5px; }
+  .plain-row.attn .mark { color: var(--amber); font-weight: 700; margin-right: 6px; }
+  .plain-row.done-row .mark { color: var(--green); font-weight: 700; margin-right: 6px; }
+
+  /* Chart */
+  .chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 24px;
+  }
+  .chart-wrap svg { width: 100%; height: auto; display: block; }
+
+  .motivation {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 0 0 20px;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border-radius: 10px;
+  }
+
+  /* Settings / reset */
+  .settings-block {
+    margin-top: 30px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+  }
+  .btn-danger {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .btn-danger:hover { border-color: var(--amber); color: var(--amber); }
+
+  .confirm-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20,20,20,0.45);
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 20px;
+  }
+  .confirm-overlay.show { display: flex; }
+  .confirm-box {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 22px;
+    max-width: 340px;
+    width: 100%;
+  }
+  .confirm-box p { font-size: 14.5px; margin: 0 0 16px; }
+  .confirm-box .row { display: flex; gap: 10px; justify-content: flex-end; }
+  .confirm-box button {
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    border: 1px solid var(--line);
+    background: none;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .confirm-box button.confirm { background: var(--amber); border-color: var(--amber); color: #fff; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <h1>CLOUD INFRASTRUCTURE INTERVIEW PREPARATION</h1>
+    <p class="sub">30-Day Preparation Journey</p>
+    <span class="dates">21 Sep 2026 → 20 Oct 2026</span>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <button data-view="dashboard" class="active">Dashboard</button>
+    <button data-view="plan">30-Day Plan</button>
+    <button data-view="progress">Progress</button>
+    <button data-view="today">Today</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- DASHBOARD -->
+  <section class="view active" id="view-dashboard">
+    <p class="motivation" id="motivation-line"></p>
+
+    <div class="stat-rail" id="stat-rail"></div>
+
+    <div class="progress-block">
+      <div class="row-top">
+        <span>Your Preparation Progress</span>
+        <span class="pct" id="overall-pct">0%</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" id="overall-bar" style="width:0%"></div></div>
+      <div class="row-bottom" id="overall-days-line">0 of 30 days completed</div>
+    </div>
+
+    <div id="today-focus-slot"></div>
+
+    <h2 class="section-title">Weekly Progress</h2>
+    <p class="section-note">See which week needs the most attention.</p>
+    <div id="week-bars" style="margin-bottom:26px;"></div>
+
+    <h2 class="section-title">What Remains</h2>
+    <p class="section-note" id="remaining-count"></p>
+    <div class="list-block"><div id="remaining-list"></div></div>
+
+    <h2 class="section-title">Completed</h2>
+    <div class="list-block"><div id="completed-list"></div></div>
+
+    <h2 class="section-title">Needs Attention</h2>
+    <p class="section-note">Topics that are started but not yet finished.</p>
+    <div class="list-block"><div id="attention-list"></div></div>
+  </section>
+
+  <!-- PLAN -->
+  <section class="view" id="view-plan">
+    <h2 class="section-title">30-Day Roadmap</h2>
+    <p class="section-note">Tap a day to open it and check off what you've covered.</p>
+    <div id="roadmap"></div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="view" id="view-progress">
+    <h2 class="section-title">30-Day Progress Chart</h2>
+    <p class="section-note">Completion percentage for each day, based on checked tasks.</p>
+    <div class="chart-wrap"><div id="chart-slot"></div></div>
+
+    <h2 class="section-title">Study Calendar</h2>
+    <p class="section-note">Tap a day to jump to it.</p>
+    <div id="calendar"></div>
+
+    <div class="settings-block">
+      <p class="section-note" style="margin-bottom:10px;">Settings</p>
+      <button class="btn-danger" id="reset-btn">Reset Progress</button>
+    </div>
+  </section>
+
+  <!-- TODAY -->
+  <section class="view" id="view-today">
+    <h2 class="section-title">Today's Focus</h2>
+    <div id="today-full-slot"></div>
+  </section>
+
+</div>
+
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <p>Are you sure you want to reset all study progress?</p>
+    <div class="row">
+      <button id="confirm-cancel">Cancel</button>
+      <button class="confirm" id="confirm-ok">Reset</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- Curriculum data ---------- */
+  const CURRICULUM = [
+    {day:1, week:1, topic:"Infrastructure Fundamentals", subtopics:["IT infrastructure basics","Server vs workstation","Physical vs virtual servers","On-premises vs cloud","Data center basics","CPU, RAM, storage and NIC","RAID basics","HDD vs SSD","Server boot process"]},
+    {day:2, week:1, topic:"Linux Fundamentals", subtopics:["Linux architecture","Kernel","Shell","Terminal","Linux filesystem","Root user","Basic Linux commands","File and directory management"]},
+    {day:3, week:1, topic:"Linux Users, Groups & Permissions", subtopics:["Users","Groups","Ownership","rwx permissions","chmod","chown","chgrp","sudo","User management"]},
+    {day:4, week:1, topic:"Linux Processes & Services", subtopics:["Processes","PID","Background/foreground processes","Services","systemd","systemctl","Process monitoring","Service troubleshooting"]},
+    {day:5, week:1, topic:"Linux Storage", subtopics:["Filesystems","Partitions","Mounting","Disk management","LVM basics","Swap","Inodes","df","du","lsblk"]},
+    {day:6, week:1, topic:"Linux Logs & Troubleshooting", subtopics:["System logs","Application logs","journalctl","/var/log","grep","find","tail","Troubleshooting methodology"]},
+    {day:7, week:1, topic:"Linux Revision & Mock Interview", subtopics:["Week 1 revision","Linux interview questions","Linux troubleshooting scenarios","Mini mock interview"]},
+    {day:8, week:2, topic:"Networking Fundamentals", subtopics:["LAN/WAN","Client/server","IP address","MAC address","NIC","Private/public IP"]},
+    {day:9, week:2, topic:"OSI & TCP/IP", subtopics:["OSI 7 layers","TCP/IP model","TCP","UDP","ICMP","Ethernet","Real-world packet flow"]},
+    {day:10, week:2, topic:"IP Addressing & Subnetting", subtopics:["IPv4","IPv6 basics","Network ID","Host ID","Subnet mask","CIDR","Default gateway","Private IP ranges","Subnetting practice"]},
+    {day:11, week:2, topic:"DNS & DHCP", subtopics:["DNS","DNS resolver","A record","AAAA record","CNAME record","MX record","NS record","PTR record","DHCP","DORA process","DNS troubleshooting"]},
+    {day:12, week:2, topic:"Routing & NAT", subtopics:["Routing","Routing table","Default route","Static routing","Dynamic routing concepts","NAT","PAT","Internet gateway"]},
+    {day:13, week:2, topic:"Ports, Firewalls & Network Troubleshooting", subtopics:["Common ports","HTTP","HTTPS","SSH","RDP","DNS port basics","MySQL port","Firewall concepts","Inbound/outbound rules","ping","traceroute","curl","ss/netstat","telnet/nc"]},
+    {day:14, week:2, topic:"Networking Mock Interview", subtopics:["Networking revision","Rapid-fire questions","Network troubleshooting scenarios","Mock interview"]},
+    {day:15, week:3, topic:"Cloud Computing Fundamentals", subtopics:["Cloud computing","IaaS","PaaS","SaaS","Public cloud","Private cloud","Hybrid cloud","Scalability","Elasticity","Pay-as-you-go"]},
+    {day:16, week:3, topic:"Azure Core Architecture", subtopics:["Azure regions","Availability zones","Subscriptions","Resource groups","Resources","Azure Portal","Azure CLI","Azure hierarchy"]},
+    {day:17, week:3, topic:"Azure Virtual Machines", subtopics:["VM basics","VM images","VM sizes","OS disk","Data disk","NIC","Public/private IP","SSH access","RDP access","NSG","VM troubleshooting"]},
+    {day:18, week:3, topic:"Azure Networking", subtopics:["VNet","Subnet","NSG","Route tables","Public IP","Private IP","NAT Gateway","VNet Peering","VPN Gateway"]},
+    {day:19, week:3, topic:"Azure Storage", subtopics:["Storage Accounts","Blob Storage","File Storage","Queue Storage","Table Storage","Managed Disks","Storage redundancy","Hot/Cool/Archive tiers"]},
+    {day:20, week:3, topic:"Azure Identity & Access", subtopics:["Microsoft Entra ID","Authentication","Authorization","RBAC","Roles","Users","Groups","Service principals","Managed identities","Least privilege"]},
+    {day:21, week:3, topic:"Azure Monitoring", subtopics:["Azure Monitor","Metrics","Logs","Alerts","Log Analytics","Activity Log","VM monitoring","Monitoring scenarios"]},
+    {day:22, week:4, topic:"Windows Server", subtopics:["Windows Server fundamentals","Services","Event Viewer","Task Manager","PowerShell basics","RDP","Windows Firewall","Windows troubleshooting"]},
+    {day:23, week:4, topic:"Active Directory", subtopics:["Active Directory","Domain","Domain Controller","Users","Groups","Organizational Units","Group Policy","DNS and AD relationship"]},
+    {day:24, week:4, topic:"Virtualization", subtopics:["Hypervisors","Type 1 vs Type 2","Virtual machines","vCPU","vRAM","Virtual disks","Snapshots","NAT networking","Bridged networking","Host-only networking"]},
+    {day:25, week:4, topic:"Security Fundamentals", subtopics:["CIA Triad","Authentication","Authorization","MFA","RBAC","Least privilege","Firewalls","Encryption","Patch management","Antivirus/EDR","SSH security"]},
+    {day:26, week:4, topic:"Backup & Disaster Recovery", subtopics:["Backup","Restore","Full backup","Incremental backup","Differential backup","Snapshot","RPO","RTO","Disaster Recovery","High Availability","Business Continuity"]},
+    {day:27, week:4, topic:"Infrastructure Troubleshooting", subtopics:["High CPU scenario","High RAM scenario","Full disk scenario","Network failure scenario","DNS failure scenario","Application unavailable scenario","VM unreachable scenario","Service stopped scenario","Authentication failure scenario","Apply Identify→Gather→Isolate→Test→Fix→Verify→Prevent"]},
+    {day:28, week:4, topic:"Technical Rapid Fire", subtopics:["Linux rapid fire","Networking rapid fire","Cloud rapid fire","Azure rapid fire","Windows rapid fire","Security rapid fire","Virtualization rapid fire","Troubleshooting rapid fire"]},
+    {day:29, week:4, topic:"Full Technical Mock Interview", subtopics:["Introduction","Linux questions","Networking questions","Cloud questions","Azure questions","Windows questions","Troubleshooting questions","Follow-up questions"]},
+    {day:30, week:4, topic:"Final Interview Simulation", subtopics:["Technical interview","Scenario-based questions","Troubleshooting round","HR questions","Self-introduction","Strengths/weaknesses","Why Cloud Infrastructure?","Fresher-related questions","Career questions"]}
+  ];
+
+  const START_DATE = new Date(2026, 8, 21); // 21 Sep 2026
+  const TOTAL_DAYS = 30;
+  const WEEK_LABELS = {1:"Week 1", 2:"Week 2", 3:"Week 3", 4:"Week 4"};
+  const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  function dateForDay(n){
+    const d = new Date(START_DATE);
+    d.setDate(d.getDate() + (n-1));
+    return d;
+  }
+  function fmtDate(d){
+    return d.getDate() + " " + MONTH_NAMES[d.getMonth()] + " " + d.getFullYear();
+  }
+  function sameDay(a,b){
+    return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+  }
+
+  /* ---------- State (localStorage) ---------- */
+  const STORAGE_KEY = "cip-tracker-v1";
+  let state = { tasks: {} };
+
+  function loadState(){
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object" && parsed.tasks) state = parsed;
+      }
+    } catch(e) { /* storage unavailable — proceed with in-memory defaults */ }
+  }
+  function saveState(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch(e) { /* storage unavailable — progress won't persist this session */ }
+  }
+  function taskKey(day, idx){ return day + "-" + idx; }
+  function isDone(day, idx){ return !!state.tasks[taskKey(day, idx)]; }
+  function setDone(day, idx, val){
+    if (val) state.tasks[taskKey(day, idx)] = true;
+    else delete state.tasks[taskKey(day, idx)];
+    saveState();
+  }
+
+  /* ---------- Derived stats ---------- */
+  function dayStats(day){
+    const entry = CURRICULUM[day-1];
+    const total = entry.subtopics.length;
+    let completed = 0;
+    for (let i=0;i<total;i++) if (isDone(day,i)) completed++;
+    const pct = total ? Math.round((completed/total)*100) : 0;
+    let status = "not-started";
+    if (pct === 100) status = "done";
+    else if (pct > 0) status = "progress";
+    return {completed, total, pct, status};
+  }
+  function weekStats(week){
+    const days = CURRICULUM.filter(d => d.week === week);
+    let completed = 0, total = 0;
+    days.forEach(d => { const s = dayStats(d.day); completed += s.completed; total += s.total; });
+    return {completed, total, pct: total ? Math.round((completed/total)*100) : 0};
+  }
+  function overallStats(){
+    let completed = 0, total = 0, daysCompleted = 0;
+    CURRICULUM.forEach(d => {
+      const s = dayStats(d.day);
+      completed += s.completed; total += s.total;
+      if (s.status === "done") daysCompleted++;
+    });
+    return {completed, total, pct: total ? Math.round((completed/total)*100) : 0, daysCompleted};
+  }
+  function currentStreak(){
+    // Consecutive fully-completed days counting back from the most recent completed day in sequence
+    let streak = 0;
+    for (let d = TOTAL_DAYS; d >= 1; d--) {
+      if (dayStats(d).status === "done") streak++;
+      else if (streak > 0) break;
+    }
+    // if nothing completed at the tail, check from day 1 forward instead (early consistent runs)
+    if (streak === 0) {
+      for (let d = 1; d <= TOTAL_DAYS; d++) {
+        if (dayStats(d).status === "done") streak++;
+        else break;
+      }
+    }
+    return streak;
+  }
+  function todayInfo(){
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const diff = Math.round((today - START_DATE) / 86400000);
+    if (diff < 0) return {phase: "before", daysUntil: -diff};
+    if (diff >= TOTAL_DAYS) return {phase: "after"};
+    return {phase: "during", dayNum: diff + 1};
+  }
+
+  /* ---------- Rendering ---------- */
+  const $ = sel => document.querySelector(sel);
+  const $all = sel => document.querySelectorAll(sel);
+
+  function renderAll(){
+    renderStatRail();
+    renderOverallBar();
+    renderTodayFocus();
+    renderWeekBars();
+    renderRemaining();
+    renderCompleted();
+    renderAttention();
+    renderMotivation();
+    renderRoadmap();
+    renderChart();
+    renderCalendar();
+  }
+
+  function renderStatRail(){
+    const o = overallStats();
+    const remaining = TOTAL_DAYS - o.daysCompleted;
+    const rail = $("#stat-rail");
+    rail.innerHTML = [
+      {num:o.pct+"%", lbl:"Overall"},
+      {num:o.daysCompleted+"/"+TOTAL_DAYS, lbl:"Days"},
+      {num:o.completed+"/"+o.total, lbl:"Topics"},
+      {num:currentStreak(), lbl:"Day streak"},
+      {num:remaining, lbl:"Days left"}
+    ].map(s => `<div class="stat"><span class="num">${s.num}</span><span class="lbl">${s.lbl}</span></div>`).join("");
+  }
+
+  function renderOverallBar(){
+    const o = overallStats();
+    $("#overall-pct").textContent = o.pct + "%";
+    $("#overall-bar").style.width = o.pct + "%";
+    $("#overall-days-line").textContent = o.daysCompleted + " of " + TOTAL_DAYS + " days completed";
+  }
+
+  function todayFocusHtml(expanded){
+    const info = todayInfo();
+    if (info.phase === "before") {
+      return `<div class="empty-state">Your 30-day plan starts in ${info.daysUntil} day${info.daysUntil===1?"":"s"}, on ${fmtDate(START_DATE)}. Come back then to begin Day 1.</div>`;
+    }
+    if (info.phase === "after") {
+      return `<div class="empty-state">Your 30-day window has ended. Review anything left in "Needs Attention" or revisit the full plan any time.</div>`;
+    }
+    const d = CURRICULUM[info.dayNum-1];
+    const s = dayStats(d.day);
+    const dateStr = fmtDate(dateForDay(d.day));
+    let inner = `
+      <div class="eyebrow">Today · ${dateStr}</div>
+      <h3>Day ${d.day} — ${d.topic}</h3>
+      <div class="meta">${s.completed} of ${s.total} tasks · ${s.pct}% complete</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${s.pct}%"></div></div>`;
+    if (expanded) {
+      inner += `<div style="margin-top:16px;">` + tasksListHtml(d, true) + `</div>`;
+    } else {
+      inner += `<button class="cta" data-goto-today="1">Continue Today's Study</button>`;
+    }
+    return `<div class="today-card">${inner}</div>`;
+  }
+
+  function renderTodayFocus(){
+    $("#today-focus-slot").innerHTML = todayFocusHtml(false);
+    $("#today-full-slot").innerHTML = todayFocusHtml(true);
+    const btn = document.querySelector("[data-goto-today]");
+    if (btn) btn.addEventListener("click", () => switchView("today"));
+    wireTaskCheckboxes($("#today-full-slot"));
+  }
+
+  function renderWeekBars(){
+    const el = $("#week-bars");
+    let html = "";
+    for (let w=1; w<=4; w++){
+      const s = weekStats(w);
+      html += `<div class="week-row">
+        <span class="wk-label">${WEEK_LABELS[w]}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${s.pct}%"></div></div>
+        <span class="wk-pct">${s.pct}%</span>
+      </div>`;
+    }
+    el.innerHTML = html;
+  }
+
+  function renderRemaining(){
+    const info = todayInfo();
+    const startFrom = info.phase === "during" ? info.dayNum + 1 : (info.phase === "before" ? 1 : TOTAL_DAYS + 1);
+    const upcoming = CURRICULUM.filter(d => dayStats(d.day).status !== "done" && d.day >= (info.phase === "during" ? info.dayNum : 1)).slice(0, 5);
+    const remainingDays = TOTAL_DAYS - overallStats().daysCompleted;
+    $("#remaining-count").textContent = remainingDays + " day" + (remainingDays===1?"":"s") + " remaining";
+    if (!upcoming.length) {
+      $("#remaining-list").innerHTML = `<div class="plain-row">Nothing left — every day is complete.</div>`;
+      return;
+    }
+    $("#remaining-list").innerHTML = upcoming.map((d,i) => {
+      const label = (info.phase === "during" && d.day === info.dayNum + 0 && i === 0 && d.day === info.dayNum) ? "Today" :
+                    (info.phase === "during" && d.day === info.dayNum + 1) ? "Tomorrow" : "Day " + d.day;
+      return `<div class="plain-row"><span>${label} — ${d.topic}</span><span class="d">${fmtDate(dateForDay(d.day))}</span></div>`;
+    }).join("");
+  }
+
+  function renderCompleted(){
+    const done = CURRICULUM.filter(d => dayStats(d.day).status === "done");
+    const el = $("#completed-list");
+    if (!done.length) {
+      el.innerHTML = `<div class="plain-row">Nothing completed yet — check off tasks to see them here.</div>`;
+      return;
+    }
+    el.innerHTML = done.slice(-6).reverse().map(d =>
+      `<div class="plain-row done-row"><span><span class="mark">✓</span>${d.topic}</span><span class="d">Day ${d.day}</span></div>`
+    ).join("");
+  }
+
+  function renderAttention(){
+    const weak = CURRICULUM.filter(d => {
+      const s = dayStats(d.day);
+      return s.status === "progress";
+    }).sort((a,b) => dayStats(a.day).pct - dayStats(b.day).pct);
+    const el = $("#attention-list");
+    if (!weak.length) {
+      el.innerHTML = `<div class="plain-row">No half-finished topics right now.</div>`;
+      return;
+    }
+    el.innerHTML = weak.slice(0,6).map(d => {
+      const s = dayStats(d.day);
+      return `<div class="plain-row attn"><span><span class="mark">⚠</span>${d.topic}</span><span class="d">${s.pct}%</span></div>`;
+    }).join("");
+  }
+
+  function renderMotivation(){
+    const o = overallStats();
+    const info = todayInfo();
+    let msg;
+    if (o.daysCompleted === 0) msg = "You haven't checked off a full day yet — Day 1 is a good place to start.";
+    else if (o.pct === 100) msg = "All 30 days complete. You're ready.";
+    else if (info.phase === "during") msg = o.daysCompleted + " day" + (o.daysCompleted===1?"":"s") + " completed. Today's target: Day " + info.dayNum + ".";
+    else msg = o.daysCompleted + " day" + (o.daysCompleted===1?"":"s") + " completed. Keep going.";
+    $("#motivation-line").textContent = msg;
+  }
+
+  function tasksListHtml(entry, includeBar){
+    let html = "";
+    entry.subtopics.forEach((t, idx) => {
+      const done = isDone(entry.day, idx);
+      const cbId = "task-" + entry.day + "-" + idx;
+      html += `<div class="task-row ${done?"done":""}">
+        <input type="checkbox" id="${cbId}" data-day="${entry.day}" data-idx="${idx}" ${done?"checked":""}>
+        <label for="${cbId}">${t}</label>
+      </div>`;
+    });
+    if (includeBar) {
+      const s = dayStats(entry.day);
+      html += `<div class="day-bar"><div class="bar-track"><div class="bar-fill" style="width:${s.pct}%"></div></div></div>`;
+    }
+    return html;
+  }
+
+  function wireTaskCheckboxes(root){
+    root.querySelectorAll('input[type=checkbox][data-day]').forEach(cb => {
+      cb.addEventListener("change", () => {
+        setDone(parseInt(cb.dataset.day,10), parseInt(cb.dataset.idx,10), cb.checked);
+        renderAll();
+        // keep the day card open after re-render
+        const card = document.querySelector('.day-card[data-day="'+cb.dataset.day+'"]');
+        if (card) card.classList.add("open");
+      });
+    });
+  }
+
+  let openDay = null;
+  function renderRoadmap(){
+    const el = $("#roadmap");
+    let html = "";
+    for (let w=1; w<=4; w++){
+      html += `<div class="week-group"><h3>${WEEK_LABELS[w]}</h3>`;
+      CURRICULUM.filter(d => d.week === w).forEach(entry => {
+        const s = dayStats(entry.day);
+        const badgeClass = s.status === "done" ? "status-done" : s.status === "progress" ? "status-progress" : "";
+        const badgeContent = s.status === "done" ? "✓" : ("D" + entry.day);
+        const isOpen = openDay === entry.day;
+        html += `<div class="day-card ${isOpen?"open":""}" data-day="${entry.day}">
+          <button class="day-head" data-toggle="${entry.day}">
+            <span class="day-badge ${badgeClass}">${badgeContent}</span>
+            <span class="day-info">
+              <span class="topic">Day ${entry.day} — ${entry.topic}</span>
+              <span class="sub">${fmtDate(dateForDay(entry.day))} · ${s.completed}/${s.total} tasks</span>
+            </span>
+            <span class="pct-wrap"><span class="p">${s.pct}%</span></span>
+            <span class="chev">▸</span>
+          </button>
+          <div class="day-body">${tasksListHtml(entry, false)}</div>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+    el.innerHTML = html;
+    el.querySelectorAll('[data-toggle]').forEach(btn => {
+      btn.addEventListener("click", () => {
+        const day = parseInt(btn.dataset.toggle, 10);
+        openDay = (openDay === day) ? null : day;
+        renderRoadmap();
+        wireTaskCheckboxes(el);
+      });
+    });
+    wireTaskCheckboxes(el);
+  }
+
+  function openDayInPlan(day){
+    openDay = day;
+    switchView("plan");
+    renderRoadmap();
+    requestAnimationFrame(() => {
+      const card = document.querySelector('.day-card[data-day="'+day+'"]');
+      if (card) card.scrollIntoView({behavior:"smooth", block:"start"});
+    });
+  }
+
+  function renderChart(){
+    const w = 640, h = 220, padL = 30, padR = 10, padT = 14, padB = 24;
+    const innerW = w - padL - padR, innerH = h - padT - padB;
+    const points = CURRICULUM.map(d => dayStats(d.day).pct);
+    const stepX = innerW / (TOTAL_DAYS - 1);
+    const coords = points.map((p, i) => {
+      const x = padL + i * stepX;
+      const y = padT + innerH - (p/100)*innerH;
+      return [x,y];
+    });
+    const path = coords.map((c,i) => (i===0?"M":"L") + c[0].toFixed(1) + " " + c[1].toFixed(1)).join(" ");
+    const gridLines = [0,25,50,75,100].map(v => {
+      const y = padT + innerH - (v/100)*innerH;
+      return `<line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="var(--line)" stroke-width="1"/>
+              <text x="4" y="${y+4}" font-size="10" fill="var(--ink-soft)">${v}</text>`;
+    }).join("");
+    const dots = coords.map((c,i) => `<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="2.5" fill="var(--teal)"></circle>`).join("");
+    const svg = `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+      ${gridLines}
+      <path d="${path}" fill="none" stroke="var(--teal)" stroke-width="2.5"/>
+      ${dots}
+      <text x="${padL}" y="${h-4}" font-size="10" fill="var(--ink-soft)">Day 1</text>
+      <text x="${w-padR-38}" y="${h-4}" font-size="10" fill="var(--ink-soft)">Day 30</text>
+    </svg>`;
+    $("#chart-slot").innerHTML = svg;
+  }
+
+  function renderCalendar(){
+    const el = $("#calendar");
+    const info = todayInfo();
+    const now = new Date();
+    // group curriculum days by month
+    const byMonth = {};
+    CURRICULUM.forEach(entry => {
+      const d = dateForDay(entry.day);
+      const key = d.getFullYear()+"-"+d.getMonth();
+      if (!byMonth[key]) byMonth[key] = {label: MONTH_NAMES[d.getMonth()], days: []};
+      byMonth[key].days.push(entry);
+    });
+    let html = "";
+    Object.values(byMonth).forEach(month => {
+      const first = dateForDay(month.days[0].day);
+      const leading = first.getDay(); // 0=Sun
+      html += `<div class="cal-month"><h4>${month.label}</h4><div class="cal-grid">`;
+      for (let i=0;i<leading;i++) html += `<div class="cal-cell blank"></div>`;
+      month.days.forEach(entry => {
+        const s = dayStats(entry.day);
+        const d = dateForDay(entry.day);
+        const isToday = info.phase === "during" && entry.day === info.dayNum;
+        let cls = "cal-cell";
+        if (s.status === "done") cls += " done";
+        else if (s.status === "progress") cls += " progress";
+        if (isToday) cls += " today";
+        html += `<div class="${cls}" data-day="${entry.day}" title="Day ${entry.day} — ${entry.topic}">${d.getDate()}</div>`;
+      });
+      html += `</div></div>`;
+    });
+    el.innerHTML = html;
+    el.querySelectorAll('[data-day]').forEach(cell => {
+      cell.addEventListener("click", () => openDayInPlan(parseInt(cell.dataset.day,10)));
+    });
+  }
+
+  /* ---------- Navigation ---------- */
+  function switchView(name){
+    $all(".view").forEach(v => v.classList.remove("active"));
+    $all("nav.tabs button").forEach(b => b.classList.remove("active"));
+    document.getElementById("view-" + name).classList.add("active");
+    document.querySelector('nav.tabs button[data-view="'+name+'"]').classList.add("active");
+  }
+  $all("nav.tabs button").forEach(btn => {
+    btn.addEventListener("click", () => switchView(btn.dataset.view));
+  });
+
+  /* ---------- Reset ---------- */
+  const overlay = $("#confirm-overlay");
+  $("#reset-btn").addEventListener("click", () => overlay.classList.add("show"));
+  $("#confirm-cancel").addEventListener("click", () => overlay.classList.remove("show"));
+  $("#confirm-ok").addEventListener("click", () => {
+    state = { tasks: {} };
+    saveState();
+    overlay.classList.remove("show");
+    renderAll();
+  });
+
+  /* ---------- Init ---------- */
+  loadState();
+  renderAll();
+
+  // Open today's day by default in the plan view
+  const info0 = todayInfo();
+  if (info0.phase === "during") openDay = info0.dayNum;
+
+})();
+</script>
+</body>
+</html>
